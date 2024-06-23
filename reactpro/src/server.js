@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 const router = require("../router/auth-router.js");
 const connectDb = require("../utils/db.js");
+const User = require('../models/user-model.js');
 
 app.use(express.json());
 app.use("/api/auth", router);
