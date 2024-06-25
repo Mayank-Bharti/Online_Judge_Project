@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import './register.css'; 
+import './register.css';
+
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
+  const [user, setUser] = useState({
     username: '',
     email: '',
     password: '',
@@ -9,7 +10,6 @@ const RegistrationForm = () => {
     dob: '',
     organisation: '',
     profilepic: null,
-   
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -19,32 +19,52 @@ const RegistrationForm = () => {
     confirmPassword: '',
     dob: '',
     organisation: '',
+    profilepic: '',
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
-     if (type === 'file') {
-      setFormData({
-        ...formData,
+    const { name, value, type, files } = e.target;
+    if (type === 'file') {
+      setUser({
+        ...user,
         [name]: files[0],
       });
     } else {
-      setFormData({
-        ...formData,
+      setUser({
+        ...user,
         [name]: value,
       });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add form validation and submission logic here
+    try {
+      const formData = new FormData();
+      for (const key in user) {
+        formData.append(key, user[key]);
+      }
+
+      const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
   };
 
   return (
     <div className="registration-form">
       <div className="logo-container">
-        <img src="../public/images/CodeMania.jpg" alt="CodeMania" className="logo" />
+        <img src="../images/CodeMania.jpg" alt="CodeMania" className="logo" />
         <h1 className="site-name">CodeMania</h1>
       </div>
       <form onSubmit={handleSubmit}>
@@ -53,7 +73,7 @@ const RegistrationForm = () => {
           <input
             type="text"
             name="username"
-            value={formData.username}
+            value={user.username}
             onChange={handleChange}
             className={formErrors.username && 'error'}
           />
@@ -64,7 +84,7 @@ const RegistrationForm = () => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={user.email}
             onChange={handleChange}
             className={formErrors.email && 'error'}
           />
@@ -75,29 +95,18 @@ const RegistrationForm = () => {
           <input
             type="password"
             name="password"
-            value={formData.password}
+            value={user.password}
             onChange={handleChange}
             className={formErrors.password && 'error'}
           />
           {formErrors.password && <span className="error-message">{formErrors.password}</span>}
         </div>
         <div className="form-group">
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className={formErrors.confirmPassword && 'error'}
-          />
-          {formErrors.confirmPassword && <span className="error-message">{formErrors.confirmPassword}</span>}
-        </div>
-        <div className="form-group">
           <label>Date of Birth</label>
           <input
             type="date"
             name="dob"
-            value={formData.dob}
+            value={user.dob}
             onChange={handleChange}
             className={formErrors.dob && 'error'}
           />
@@ -108,7 +117,7 @@ const RegistrationForm = () => {
           <input
             type="text"
             name="organisation"
-            value={formData.organisation}
+            value={user.organisation}
             onChange={handleChange}
             className={formErrors.organisation && 'error'}
           />
@@ -125,7 +134,6 @@ const RegistrationForm = () => {
           {formErrors.profilepic && <span className="error-message">{formErrors.profilepic}</span>}
         </div>
         <div className="captcha">
-          {/* Integrate  captcha service here */}
           <div className="captcha-message">Success!</div>
         </div>
         <button type="submit" className="submit-button">Sign Up</button>
