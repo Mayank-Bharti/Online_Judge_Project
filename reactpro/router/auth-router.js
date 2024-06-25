@@ -9,7 +9,7 @@ router.route("/register").post(authcontrol.register);
 router.route("/login").post(authcontrol.login);
 
 
-module.exports = router;
+module.exports = router; 
 
 
 

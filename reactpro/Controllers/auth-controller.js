@@ -1,6 +1,7 @@
 const User = require('../models/user-model.js');
 const { hashPassword, verifyPassword } = require('../utils/hashutils');
 const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcryptjs');
 
 //home logic
 const home = async (req, res) => {
@@ -15,22 +16,28 @@ const home = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-        const { username, email, password, dob, organisation, profilepic } = req.body;
+        const { username, email, password,dob, organisation, profilepic } = req.body;
 
         // Check if user with the same email already exists
-        const userExist = await User.findOne({ email });
-        if (userExist) {
-            return res.status(400).json({ message: "Email already exists" });
+        const userExist1 = await User.findOne({ email });
+        const userExist2 = await User.findOne({ username });
+        if (userExist1) {
+            return res.status(400).json({ message: "Email or username already exists" });
+        }
+        if (userExist2) {
+            return res.status(400).json({ message: "Email or username already exists" });
         }
 
         // Hash the password before saving
         const hashedPassword = await hashPassword(password);
+        // const hashedPassword1 = await hashPassword(confirmPassword);
 
         // Create new user instance
         const newUser = new User({
             username,
             email,
-            password: hashedPassword, // Save hashed password
+            password: hashedPassword,
+            // confirmPassword:hashedPassword1, // Save hashed password
             dob,
             organisation,
             profilepic
@@ -47,6 +54,7 @@ const register = async (req, res) => {
             token: token,
             userId: userCreated._id.toString(),
             email: userCreated.email,
+            username:userCreated.username,
             isAdmin: userCreated.isAdmin,
         });
     } catch (error) {
@@ -59,34 +67,42 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, password } = req.body;
 
-        // Check if both username and email are provided
-        if (!username || !email) {
-            return res.status(400).json({ message: "Username and email are required" });
+        // Check if both username and password are provided
+        if (!username || !password) {
+            return res.status(400).json({ message: "Username and password are required" });
         }
 
-        // Find user by both email and username
-        const userExist = await User.findOne({ email, username });
+        // Find user by username
+        const userExist = await User.findOne({ username });
 
         if (!userExist) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // Verify password
+        // Match the password
         const isMatch = await verifyPassword(password, userExist.password);
+        console.log(isMatch);
         if (!isMatch) {
-            return res.status(401).json({ message: "Invalid email, username, or password" });
+            return res.status(401).json({ message: "Username or password is incorrect" });
         }
 
         // Generate token
         const token = await userExist.generateToken();
 
-        res.status(200).json({
+        // Store cookies
+        const options = {
+            expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+        };
+
+        // Send token
+        res.status(200).cookie("token", token, options).json({
             message: "Login Successful",
             token: token,
             userId: userExist._id.toString(),
-            email: userExist.email,
+            username: userExist.username,
             isAdmin: userExist.isAdmin
         });
     } catch (error) {
@@ -94,4 +110,5 @@ const login = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 module.exports = { home, register,login};
