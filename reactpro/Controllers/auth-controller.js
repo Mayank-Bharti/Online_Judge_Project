@@ -1,7 +1,7 @@
 const User = require('../models/user-model.js');
-const { hashPassword, verifyPassword } = require('../utils/hashutils');
+// const multer = require('multer');
+// const upload = multer({ dest: 'uploads/' });
 const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcryptjs');
 
 //home logic
 const home = async (req, res) => {
@@ -14,7 +14,7 @@ const home = async (req, res) => {
 
 //Registration logic
 
-const register = async (req, res) => {
+const register=('/register', async (req, res) => {
     try {
         const { username, email, password,dob, organisation, profilepic } = req.body;
 
@@ -28,19 +28,14 @@ const register = async (req, res) => {
             return res.status(400).json({ message: "Email or username already exists" });
         }
 
-        // Hash the password before saving
-        const hashedPassword = await hashPassword(password);
-        // const hashedPassword1 = await hashPassword(confirmPassword);
-
         // Create new user instance
         const newUser = new User({
             username,
             email,
-            password: hashedPassword,
-            // confirmPassword:hashedPassword1, // Save hashed password
+            password,
             dob,
             organisation,
-            profilepic
+            profilepic, 
         });
 
         // Save user to the database
@@ -54,6 +49,7 @@ const register = async (req, res) => {
             token: token,
             userId: userCreated._id.toString(),
             email: userCreated.email,
+            profilepic:userCreated.profilepic,
             username:userCreated.username,
             isAdmin: userCreated.isAdmin,
         });
@@ -61,7 +57,7 @@ const register = async (req, res) => {
         console.error("Registration error:", error);
         res.status(500).json({ message: "Internal server error" });
     }
-};
+});
 
 //login logic
 
@@ -82,8 +78,8 @@ const login = async (req, res) => {
         }
 
         // Match the password
-        const isMatch = await verifyPassword(password, userExist.password);
-        console.log(isMatch);
+        const isMatch = await userExist.verifyPassword(password);
+        // console.log(isMatch);
         if (!isMatch) {
             return res.status(401).json({ message: "Username or password is incorrect" });
         }

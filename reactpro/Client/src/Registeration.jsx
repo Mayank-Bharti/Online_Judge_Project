@@ -6,7 +6,7 @@ const RegistrationForm = () => {
     username: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    // confirmPassword: '',
     dob: '',
     organisation: '',
     profilepic: null,
@@ -16,7 +16,7 @@ const RegistrationForm = () => {
     username: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    // confirmPassword: '',
     dob: '',
     organisation: '',
     profilepic: '',
@@ -133,9 +133,9 @@ const RegistrationForm = () => {
           />
           {formErrors.profilepic && <span className="error-message">{formErrors.profilepic}</span>}
         </div>
-        <div className="captcha">
+        {/* <div className="captcha">
           <div className="captcha-message">Success!</div>
-        </div>
+        </div> */}
         <button type="submit" className="submit-button">Sign Up</button>
       </form>
       <div className="signin-link">

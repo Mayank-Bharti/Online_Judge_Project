@@ -6,6 +6,7 @@ const multer = require('multer');
 const router = require("../router/auth-router.js");
 const connectDb = require("../utils/db.js");
 const User = require('../models/user-model.js');
+const uploads = multer({ dest: 'uploads/' });
 const app = express();
 
 // Multer setup
