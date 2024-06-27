@@ -8,6 +8,10 @@ const connectDb = require("../utils/db.js");
 const User = require('../models/user-model.js');
 const uploads = multer({ dest: 'uploads/' });
 const app = express();
+const bodyParser = require("body-parser");
+
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Multer setup
 const storage = multer.diskStorage({
@@ -21,7 +25,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 var corsOptions = {
-    origin: 'http://localhost:5173', // Removed trailing slash
+    origin: "http://localhost:5173", // Removed trailing slash
     methods: "GET,POST,DELETE,PUT,PATCH,HEAD", // Changed 'METHODS' to 'methods'
     credentials: true, // Changed 'Credential' to 'credentials'
 };

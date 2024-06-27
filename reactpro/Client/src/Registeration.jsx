@@ -12,7 +12,7 @@ const RegistrationForm = () => {
     profilepic: null,
   });
 
-  const [formErrors, setFormErrors] = useState({
+  const [formErrors, setFormErrors] = useState({ 
     username: '',
     email: '',
     password: '',
@@ -40,21 +40,26 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      for (const key in user) {
-        formData.append(key, user[key]);
-      }
+      // const formData = new FormData();
+      // for (const key in user) {
+      //   formData.append(key, user[key]);
+      // }
+
+      const {username ,email, password ,dob, organisation, profilepic}=user;
 
       const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
-        body: formData,
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({username ,email, password ,dob, organisation, profilepic}),
       });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
-      const data = await response.json();
+      // const data = await response.json();
       console.log(data);
     } catch (error) {
       console.error('Error during form submission:', error);
@@ -67,7 +72,7 @@ const RegistrationForm = () => {
         <img src="../images/CodeMania.jpg" alt="CodeMania" className="logo" />
         <h1 className="site-name">CodeMania</h1>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="POST">
         <div className="form-group">
           <label>Username</label>
           <input
@@ -128,6 +133,7 @@ const RegistrationForm = () => {
           <input
             type="file"
             name="profilepic"
+            value={user.profilepic}
             onChange={handleChange}
             className={formErrors.profilepic && 'error'}
           />
@@ -139,10 +145,11 @@ const RegistrationForm = () => {
         <button type="submit" className="submit-button">Sign Up</button>
       </form>
       <div className="signin-link">
-        <span>Have an account? <a href="/signin">Sign In</a></span>
+        <span>Have an account? <a href="/signin">Sign In</a></span> 
       </div>
     </div>
   );
 };
 
 export default RegistrationForm;
+

@@ -4,7 +4,7 @@ const User = require('../models/user-model.js');
 const jwt = require('jsonwebtoken');
 
 //home logic
-const home = async (req, res) => {
+exports.home= async (req, res) => {
     try {
         res.status(200).send("welcome");
     } catch (error) {
@@ -14,7 +14,7 @@ const home = async (req, res) => {
 
 //Registration logic
 
-const register=('/register', async (req, res) => {
+exports.register=('/register', async (req, res) => {
     try {
         const { username, email, password,dob, organisation, profilepic } = req.body;
 
@@ -61,7 +61,7 @@ const register=('/register', async (req, res) => {
 
 //login logic
 
-const login = async (req, res) => {
+exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -107,4 +107,4 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { home, register,login};
+// module.exports = { home, register,login};
