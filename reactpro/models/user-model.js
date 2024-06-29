@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const File = require("./File"); 
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -24,7 +25,8 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     profilepic: {
-        type: Buffer,
+        type: Buffer, 
+        required: false,
     },
     isAdmin: {
         type: Boolean,

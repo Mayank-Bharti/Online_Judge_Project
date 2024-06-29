@@ -89,6 +89,9 @@ export const Login = () => {
        
         <button type="submit" className="login-button">Login</button>
       </form>
+      <div className="signup-link">
+        <span>Not have an account? <a href="/Registration">Sign Up</a></span> 
+      </div>
     </div>
   );
 };
