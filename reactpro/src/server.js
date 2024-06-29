@@ -5,13 +5,13 @@ const cors = require("cors");
 const multer = require('multer');
 const router = require("../router/auth-router.js");
 const connectDb = require("../utils/db.js");
-const User = require('../models/user-model.js');
-const uploads = multer({ dest: 'uploads/' });
+// const User = require('../models/user-model.js');
+// const uploads = multer({ dest: 'uploads/' });
 const app = express();
 const bodyParser = require("body-parser");
 
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 app.use('/', router);
 
