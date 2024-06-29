@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './register.css';
 
-const RegistrationForm = () => {
+export const Register = () => {
   const [user, setUser] = useState({
     username: '',
     email: '',
@@ -139,17 +139,15 @@ const RegistrationForm = () => {
           />
           {formErrors.profilepic && <span className="error-message">{formErrors.profilepic}</span>}
         </div>
-        {/* <div className="captcha">
-          <div className="captcha-message">Success!</div>
-        </div> */}
+       
         <button type="submit" className="submit-button">Sign Up</button>
       </form>
       <div className="signin-link">
-        <span>Have an account? <a href="/signin">Sign In</a></span> 
+        <span>Have an account? <a href="/login">Sign In</a></span> 
       </div>
     </div>
   );
 };
 
-export default RegistrationForm;
+// export default RegistrationForm;
 
