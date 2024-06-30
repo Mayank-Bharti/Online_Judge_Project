@@ -24,10 +24,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    profilepic: {
-        type: Buffer, 
-        required: false,
-    },
+    // profilepic: {
+    //     type: Buffer, 
+    //     required: false,
+    // },
     isAdmin: {
         type: Boolean,
         default: false,

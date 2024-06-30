@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 //home logic
 exports.home= async (req, res) => {
     try {
-        res.status(200).send("welcome");
+        res.json({message:"Welcome to the home page"});
     } catch (error) {
         console.log(error);
     }
@@ -16,7 +16,10 @@ exports.home= async (req, res) => {
 
 exports.register=('/register', async (req, res) => {
     try {
-        const { username, email, password,dob, organisation, profilepic } = req.body;
+        const { username, email, password,dob, organisation } = req.body;
+        if (!username || !email || !password || !dob || !organisation) {
+            return res.status(400).json({ message: 'Name is required, Email is required, Password is required, dob is required, organisation is required' });
+          }
 
         // Check if user with the same email already exists
         const userExist1 = await User.findOne({ email });
@@ -35,7 +38,7 @@ exports.register=('/register', async (req, res) => {
             password,
             dob,
             organisation,
-            profilepic, 
+            // profilepic, 
         });
 
         // Save user to the database
@@ -49,7 +52,7 @@ exports.register=('/register', async (req, res) => {
             token: token,
             userId: userCreated._id.toString(),
             email: userCreated.email,
-            profilepic:userCreated.profilepic,
+            // profilepic:userCreated.profilepic,
             username:userCreated.username,
             isAdmin: userCreated.isAdmin,
         });

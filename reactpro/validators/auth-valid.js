@@ -14,6 +14,10 @@ const signupSchema = z.object({
     .trim()
     .min(3,{message:"Password must be at least of 3 chars"})
     .max(255,{message:"Password must not be more than 255 chars"}),
+    dob:z.string({required_error:"dob is required"})
+    .trim()
+    .min(3,{message:"dob must be at least of 3 chars"})
+    .max(255,{message:"dob must not be more than 255 chars"}),
     organisation:z.string({required_error:"organisation is required"})
     .trim()
     .min(3,{message:"organisation must be at least of 3 chars"})

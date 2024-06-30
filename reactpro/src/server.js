@@ -1,32 +1,29 @@
-const dot = require("dotenv").config();
+const dotenv = require("dotenv").config(); // Use 'dotenv' instead of 'dot'
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-const multer = require('multer');
 const router = require("../router/auth-router.js");
 const connectDb = require("../utils/db.js");
-// const User = require('../models/user-model.js');
-// const uploads = multer({ dest: 'uploads/' });
-const app = express();
 const bodyParser = require("body-parser");
+
+const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json()); 
 
-app.use('/', router);
-
-
-var corsOptions = {
-    origin: "http://localhost:5173", // Removed trailing slash
-    methods: "GET,POST,DELETE,PUT,PATCH,HEAD", // Changed 'METHODS' to 'methods'
-    credentials: true, // Changed 'Credential' to 'credentials'
+// CORS Options
+const corsOptions = {
+    origin: "http://localhost:5173",
+    methods: "GET,POST,DELETE,PUT,PATCH,HEAD",
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/api/auth", router);
+app.use('/api', router); // Base route
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 connectDb().then(() => {
     app.listen(port, () => {

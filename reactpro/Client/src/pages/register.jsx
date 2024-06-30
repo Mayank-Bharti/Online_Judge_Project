@@ -9,7 +9,7 @@ export const Register = () => {
     password: '',
     dob: '',
     organisation: '',
-    profilepic: null,
+    // profilepic: null,
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -18,7 +18,7 @@ export const Register = () => {
     password: '',
     dob: '',
     organisation: '',
-    profilepic: '',
+    // profilepic: '',
   });
 
   const handleChange = (e) => {
@@ -38,15 +38,18 @@ export const Register = () => {
     formData.append('password', user.password);
     formData.append('dob', user.dob);
     formData.append('organisation', user.organisation);
-    formData.append('profilepic', user.profilepic);
+    // formData.append('profilepic', user.profilepic);
 
-    axios.post('/register', formData)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
+    try {
+      const response = await axios.post('http://localhost:5000/api/register', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Registration error:', error.response ? error.response.data : error.message);
+    }
   };
 
   return (
@@ -81,11 +84,11 @@ export const Register = () => {
           <input type="text" name="organisation" value={user.organisation} onChange={handleChange} className={formErrors.organisation && 'error'} />
           {formErrors.organisation && <span className="error-message">{formErrors.organisation}</span>}
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>Profile Picture</label>
           <input type="file" name="profilepic" value={user.profilepic} onChange={handleChange} className={formErrors.profilepic && 'error'} />
           {formErrors.profilepic && <span className="error-message">{formErrors.profilepic}</span>}
-        </div>
+        </div> */}
         <button type="submit" className="submit-button">Sign Up</button>
       </form>
       <div className="signin-link">
@@ -94,3 +97,4 @@ export const Register = () => {
     </div>
   );
 };
+export default Register;

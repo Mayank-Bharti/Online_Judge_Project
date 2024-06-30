@@ -1,58 +1,44 @@
 import React, { useState } from 'react';
 import './login.css';
 
-export const Login = () => {
+const Login = () => {
   const [user, setUser] = useState({
     username: '',
     password: '',
   });
 
-  const [formErrors, setFormErrors] = useState({ 
+  const [formErrors, setFormErrors] = useState({
     username: '',
     password: '',
-   });
+  });
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === 'file') {
-      setUser({
-        ...user,
-        [name]: files[0],
-      });
-    } else {
-      setUser({
-        ...user,
-        [name]: value,
-      });
-    }
+    const { name, value } = e.target;
+    setUser({
+      ...user,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const formData = new FormData();
-      // for (const key in user) {
-      //   formData.append(key, user[key]);
-      // }
-
-      const {username ,password }=user;
-
-      const response = await fetch('http://localhost:3000/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
-        headers:{
-          "Content-Type":"application/json"
+        headers: {
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({username ,password }),
+        body: JSON.stringify(user),
       });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Login Successful:', data);
+      } else {
+        console.error('Login error:', data.message);
       }
-
-      // const data = await response.json();
-      console.log(data);
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error('Login error:', error.message);
     }
   };
 
@@ -90,11 +76,10 @@ export const Login = () => {
         <button type="submit" className="login-button">Login</button>
       </form>
       <div className="signup-link">
-        <span>Not have an account? <a href="/Registration">Sign Up</a></span> 
+        <span>Not have an account? <a href="/register">Sign Up</a></span>
       </div>
     </div>
   );
 };
 
-// export default LoginForm;
-
+export default Login;
