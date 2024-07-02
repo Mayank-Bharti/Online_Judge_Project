@@ -1,16 +1,35 @@
-import React, { useState, useEffect } from 'react';
+// src/Home.js
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Home = () => {
-    const [message, setMessage] = useState('');
+function Home() {
+  const [problems, setProblems] = useState([]);
 
-    useEffect(() => {
-        fetch('http://localhost:5000/api')
-            .then(response => response.json())
-            .then(data => setMessage(data.message))
-            .catch(error => console.error('Error:', error));
-    }, []);
+  useEffect(() => {
+    async function fetchProblems() {
+      const response = await fetch('http://localhost:5000/api');
+      const data = await response.json();
+      setProblems(data);
+    }
 
-    return <div>{message}</div>;
-};
+    fetchProblems();
+  }, []);
+
+  return (
+    <div>
+      <h1>DSA Problems</h1>
+      <ul>
+        {problems.map(problem => (
+          <li key={problem.id}>
+            <Link to={`/problemDetail/${problem.id}`}>{problem.title}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default Home;
+
+
+// export default Home;

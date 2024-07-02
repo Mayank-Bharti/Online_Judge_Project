@@ -1,40 +1,76 @@
+/* General styling for the navbar */
+header {
+  background-color: #333;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+}
+
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  .logo-brand {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-decoration: none;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo-brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 50px;
+  margin-right: 10px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: orange; 
+}
+
+/* Responsive navbar */
+@media (max-width: 768px) {
   nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+      display: none;
   }
-  
-  nav li {
-    margin-right: 20px;
+
+  .menu-toggle {
+      display: block;
+      cursor: pointer;
+      font-size: 24px;
+      color: #fff;
   }
-  
-  nav a {
-    color: #333;
-    text-decoration: none;
-    transition: color 0.2s ease;
+
+  nav ul.active {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      background-color: #333;
   }
-  
-  nav a:hover {
-    color: #666;
+
+  nav ul li {
+      margin: 10px 0;
+      text-align: center;
   }
-  
-  .logo-brand:hover {
-    color: #666;
-  }
-  
+}

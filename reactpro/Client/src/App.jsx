@@ -5,6 +5,7 @@ import About from "./pages/about";
 import Register from "./pages/register";
 import Login from "./pages/login";
 import Navbar from "./components/Navbar";
+import ProblemDetail from "./pages/problem_detail";
 
 const App = () => {
   const [data, setData] = useState(null);
@@ -19,11 +20,13 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <div>
+      {/* <div>
         {data ? <p>{data}</p> : <p>Loading...</p>}
-      </div>
+      </div> */}
       <Routes>
-        <Route path="/" element={<Home />} />
+    
+      <Route path="/" element={<Home />} />
+      <Route path="/problemDetail/:id" element={<ProblemDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
