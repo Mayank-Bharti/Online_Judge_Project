@@ -5,15 +5,16 @@ const { v4: uuid } = require('uuid');
 const dirCodes = path.join(__dirname, 'codes');
 
 if (!fs.existsSync(dirCodes)) {
-    fs.mkdirSync(dirCodes, { recursive: true });
+    fs.mkdirSync(dirCodes, { recursive: true }); //home work: what recursive:true will do??
 }
 
-const generateFile = async (format, content) => {
+const generateFile = (language,code) => {
     const jobID = uuid();
-    const filename = `${jobID}.${format}`;
-    const filePath = path.join(dirCodes, filename);
-    await fs.writeFileSync(filePath, content);
-    return filePath;
+    // console.log(jobID);
+     const filename = `${jobID}.${language}`;
+     const filePath = path.join(dirCodes, filename);
+    fs.writeFileSync(filePath, code);
+     return filePath;
 };
 
 module.exports = {

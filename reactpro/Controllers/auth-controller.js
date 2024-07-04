@@ -138,14 +138,15 @@ exports.login = async (req, res) => {
 // Compile code logic
 exports.compileCode = async (req, res) => {
     const { language = 'cpp', code } = req.body;
+    //    res.send({language,code});
     if (code === undefined) {
         return res.status(404).json({ success: false, error: "Empty code!" });
     }
     try {
         const filePath = await generateFile(language, code);
         const output = await executeCpp(filePath);
-        res.json({ filePath, output });
+        res.send({ filePath ,output});
     } catch (error) {
-        res.status(500).json({ error: error });
+        res.status(500).json({ success:false,message:"Error" ,error });
     }
 };
