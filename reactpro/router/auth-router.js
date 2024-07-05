@@ -3,7 +3,7 @@
 // routes/router.js
 const express = require("express");
 const router = express.Router();
-const authControl = require("../controllers/auth-controller");
+const authControl = require("../Controllers/auth-controller");
 const validate = require("../middleware/validate_middle");
 const signupSchema = require("../validators/auth-valid");
 

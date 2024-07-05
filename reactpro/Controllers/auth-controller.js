@@ -3,6 +3,7 @@
 const { generateFile } = require('../utils/generateFile');
 const { executeCpp } = require('../utils/executeCpp');
 const User = require('../models/user-model.js');
+const Problem = require('../models/problem-model.js'); 
 const jwt = require('jsonwebtoken');
 
 // Example DSA problems
@@ -28,20 +29,26 @@ exports.problemDetail = async (req, res) => {
         console.log(error);
     }
 };
-
 // Home logic
-const problems = [
-    { id: 1, title: 'Two Sum' },
-    { id: 2, title: 'Reverse Linked List' },
-    { id: 3, title: 'Binary Tree Inorder Traversal' },
-    {id: 4, title: 'Sum of two numbers'}
-];
-
 exports.home = async (req, res) => {
     try {
-        res.json(problems);
+        // console.log('Fetching problems from database...');  // Debug log
+        const problems = await Problem.find({});
+        // console.log('Problems fetched:', problems);  // Debug log
+        const problemList = problems.map(problem => ({
+            id: problem._id,
+            type: problem.type,
+            number: problem.number,
+            problems: problem.problems.map(p => ({
+                title: p.title,
+            }))
+        }));
+
+        res.json(problemList);  
+
     } catch (error) {
-        console.log(error);
+        console.error('Error fetching problems:', error);
+        res.status(500).send('Internal Server Error');
     }
 };
 
