@@ -1,27 +1,36 @@
 // src/ProblemDetail.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
- import { Controlled as CodeMirror } from 'react-codemirror2';
+import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
 import 'codemirror/mode/javascript/javascript';
 
 function ProblemDetail() {
-  const { id } = useParams();
+  const { title } = useParams();
   const [problem, setProblem] = useState(null);
   const [code, setCode] = useState('');
   const [output, setOutput] = useState('');
 
   useEffect(() => {
+    // console.log(`Title parameter: ${title}`);
     async function fetchProblemDetail() {
-      const response = await fetch(`http://localhost:5000/api/problemDetail/${id}`);
-      const data = await response.json();
-      setProblem(data);
+      if (!title) {
+        console.error('No title parameter found in URL');
+        return;
+      }
+      const response = await fetch(`http://localhost:5000/api/problemDetail`);
+      if (response.ok) {
+        const data = await response.json();
+        setProblem(data);
+      } else {
+        console.error(`Problem detail not found for title: ${title}`);
+      }
     }
-
+  
     fetchProblemDetail();
-  }, [id]);
-
+  }, [title]);
+  
   const handleRunCode = async () => {
     const response = await fetch('http://localhost:5000/api/run', {
       method: 'POST',
@@ -40,6 +49,9 @@ function ProblemDetail() {
     <div>
       <h1>{problem.title}</h1>
       <p>{problem.description}</p>
+      <p>{problem.exampleInput}</p>
+      <p>{problem.exampleOutput}</p>
+      <p>{problem.difficulty}</p>
       <CodeMirror
         value={code}
         options={{

@@ -4,21 +4,14 @@ const { generateFile } = require('../utils/generateFile');
 const { executeCpp } = require('../utils/executeCpp');
 const User = require('../models/user-model.js');
 const Problem = require('../models/problem-model.js'); 
+const ProblemDetail = require('../models/problem_detail');
 const jwt = require('jsonwebtoken');
 
-// Example DSA problems
-const problemDetails = {
-    1: { title: 'Two Sum', description: 'Given an array of integers, return indices of the two numbers such that they add up to a specific target.', compiler: '...' },
-    2: { title: 'Reverse Linked List', description: 'Reverse a singly linked list.', compiler: '...' },
-    3: { title: 'Binary Tree Inorder Traversal', description: 'Given a binary tree, return the inorder traversal of its nodes\' values.', compiler: '...' },
-    4: { title: 'Sum a and b', description: 'Sum of two numbers', compiler: '...' },
-};
 
 // Problem detail logic
 exports.problemDetail = async (req, res) => {
     try {
-        const problemId = req.params.id;
-        const problem = problemDetails[problemId];
+        const problem = await ProblemDetail.findOne({});
 
         if (problem) {
             res.json(problem);
@@ -27,14 +20,14 @@ exports.problemDetail = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
+
 // Home logic
 exports.home = async (req, res) => {
     try {
-        // console.log('Fetching problems from database...');  // Debug log
         const problems = await Problem.find({});
-        // console.log('Problems fetched:', problems);  // Debug log
         const problemList = problems.map(problem => ({
             id: problem._id,
             type: problem.type,

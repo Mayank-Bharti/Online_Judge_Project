@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Home() {
-  const [problems, setProblems] = useState([]);
+  const [problemGroups, setProblemGroups] = useState([]);
 
   useEffect(() => {
     async function fetchProblems() {
       const response = await fetch('http://localhost:5000/api');
       const data = await response.json();
-      setProblems(data);
+      setProblemGroups(data);
     }
 
     fetchProblems();
@@ -18,18 +18,20 @@ function Home() {
   return (
     <div>
       <h1>DSA Problems</h1>
-      <ul>
-        {problems.map(problem => (
-          <li key={problem.id}>
-            <Link to={`/problemDetail/${problem.id}`}>{problem.title}</Link>
-          </li>
-        ))}
-      </ul>
+      {problemGroups.map(group => (
+        <div key={group.id}>
+          <h2> {group.number}. {group.type} </h2>
+          <ul>
+            {group.problems.map((problem, index) => (
+              <li key={index}>
+                <Link to={`/problemDetail/${index}`}>{problem.title}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
 
 export default Home;
-
-
-// export default Home;

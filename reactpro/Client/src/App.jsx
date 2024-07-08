@@ -24,9 +24,8 @@ const App = () => {
         {data ? <p>{data}</p> : <p>Loading...</p>}
       </div> */}
       <Routes>
-    
-      <Route path="/" element={<Home />} />
-      <Route path="/problemDetail/:id" element={<ProblemDetail />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/problemDetail/:title" element={<ProblemDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
