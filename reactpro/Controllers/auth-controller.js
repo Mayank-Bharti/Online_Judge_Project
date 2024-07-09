@@ -11,7 +11,8 @@ const jwt = require('jsonwebtoken');
 // Problem detail logic
 exports.problemDetail = async (req, res) => {
     try {
-        const problem = await ProblemDetail.findOne({});
+        const problemTitle = req.params.title;
+        const problem = await ProblemDetail.findOne({ title: problemTitle});
 
         if (problem) {
             res.json(problem);

@@ -13,13 +13,12 @@ function ProblemDetail() {
   const [output, setOutput] = useState('');
 
   useEffect(() => {
-    // console.log(`Title parameter: ${title}`);
     async function fetchProblemDetail() {
       if (!title) {
         console.error('No title parameter found in URL');
         return;
       }
-      const response = await fetch(`http://localhost:5000/api/problemDetail`);
+      const response = await fetch(`http://localhost:5000/api/problemDetail/${title}`);
       if (response.ok) {
         const data = await response.json();
         setProblem(data);
@@ -27,10 +26,10 @@ function ProblemDetail() {
         console.error(`Problem detail not found for title: ${title}`);
       }
     }
-  
+
     fetchProblemDetail();
   }, [title]);
-  
+
   const handleRunCode = async () => {
     const response = await fetch('http://localhost:5000/api/run', {
       method: 'POST',
