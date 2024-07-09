@@ -22,7 +22,7 @@ function Home() {
         <div key={group.id}>
           <h2> {group.number}. {group.type} </h2>
           <ul>
-            {group.problems.map((problem, index) => (
+            {group.problems.map((problem) => (
               <li key={problem.title}>
                 <Link to={`/problemDetail/${problem.title}`}>{problem.title}</Link>
               </li>
