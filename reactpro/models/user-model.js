@@ -3,6 +3,34 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const File = require("./File"); 
 
+const problemSchema = new mongoose.Schema({
+    problemId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Problem",
+        required: true,
+    },
+    solvedAt: {
+        type: Date,
+        default: Date.now,
+    }
+});
+
+const contestSchema = new mongoose.Schema({
+    contestId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Contest",
+        required: true,
+    },
+    result: {
+        type: String,
+        required: true,
+    },
+    participatedAt: {
+        type: Date,
+        default: Date.now,
+    }
+});
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -39,7 +67,10 @@ const userSchema = new mongoose.Schema({
     updated_at: { 
         type: Date, 
         default: Date.now,
-    }
+    },
+    problemsSolved: [problemSchema],
+    contestsParticipated: [contestSchema]
+
 });
 
 userSchema.pre("save", async function(next) {

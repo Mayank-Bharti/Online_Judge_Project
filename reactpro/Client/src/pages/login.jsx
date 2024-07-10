@@ -20,8 +20,18 @@ const Login = () => {
     });
   };
 
+  const validateForm = () => {
+    let errors = {};
+    if (!user.username) errors.username = 'Username is required';
+    if (!user.password) errors.password = 'Password is required';
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
@@ -30,15 +40,20 @@ const Login = () => {
         },
         body: JSON.stringify(user),
       });
-      
+
       const data = await response.json();
       if (response.ok) {
-        console.log('Login Successful:', data);
+        // Save the token to localStorage
+        localStorage.setItem('token', data.token);
+        // Redirect to the profile page
+        window.location.href = '/profile';
       } else {
-        console.error('Login error:', data.message);
+        // Update form errors based on server response
+        setFormErrors({ ...formErrors, general: data.message || 'Login failed' });
       }
     } catch (error) {
       console.error('Login error:', error.message);
+      setFormErrors({ ...formErrors, general: 'An unexpected error occurred' });
     }
   };
 
@@ -56,11 +71,11 @@ const Login = () => {
             name="username"
             value={user.username}
             onChange={handleChange}
-            className={formErrors.username && 'error'}
+            className={formErrors.username ? 'error' : ''}
           />
           {formErrors.username && <span className="error-message">{formErrors.username}</span>}
         </div>
-        
+
         <div className="form-group">
           <label>Password</label>
           <input
@@ -68,11 +83,13 @@ const Login = () => {
             name="password"
             value={user.password}
             onChange={handleChange}
-            className={formErrors.password && 'error'}
+            className={formErrors.password ? 'error' : ''}
           />
           {formErrors.password && <span className="error-message">{formErrors.password}</span>}
         </div>
-       
+
+        {formErrors.general && <div className="error-message">{formErrors.general}</div>}
+
         <button type="submit" className="login-button">Login</button>
       </form>
       <div className="signup-link">

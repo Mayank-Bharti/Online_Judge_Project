@@ -6,6 +6,7 @@ import Register from "./pages/register";
 import Login from "./pages/login";
 import Navbar from "./components/Navbar";
 import ProblemDetail from "./pages/problem_detail";
+import ProfilePage from "./pages/profile";
 
 const App = () => {
   const [data, setData] = useState(null);
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<ProfilePage />}/>
       </Routes>
     </Router>
   );

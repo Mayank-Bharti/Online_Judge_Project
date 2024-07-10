@@ -5,9 +5,58 @@ const { executeCpp } = require('../utils/executeCpp');
 const User = require('../models/user-model.js');
 const Problem = require('../models/problem-model.js'); 
 const ProblemDetail = require('../models/problem_detail');
+const Contest = require('../models/contest_schema')
 const jwt = require('jsonwebtoken');
 
+//profile page
+exports.profile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId)
+            .populate('problemsSolved.problemId', 'title description difficulty')
+            .populate('contestsParticipated.contestId', 'title description date')
+            .exec();
 
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const totalUsers = await User.countDocuments();
+        const totalContests = await Contest.countDocuments();
+        const recentSubmissions = user.problemsSolved.slice(-5).map(ps => ({
+            problem: ps.problemId,
+            solvedAt: ps.solvedAt
+        }));
+        const userProfile = {
+            username: user.username,
+            email: user.email,
+            dob: user.dob,
+            organisation: user.organisation,
+            created_at: user.created_at,
+            updated_at: user.updated_at,
+            isAdmin: user.isAdmin,
+            problemsSolved: user.problemsSolved.map(ps => ({
+                problem: ps.problemId.title,
+                solvedAt: ps.solvedAt,
+                difficulty: ps.problemId.difficulty
+            })),
+            contestsParticipated: user.contestsParticipated.map(cp => ({
+                contest: cp.contestId.title,
+                date: cp.contestId.date,
+                result: cp.result
+            })),
+            communityStats: {
+                totalUsers,
+                totalContests
+            },
+            languages: user.languages || [],  
+            skills: user.skills || [],       
+            recentSubmissions: recentSubmissions
+        };
+        res.status(200).json({ user: userProfile });
+    } catch (error) {
+        console.error("Profile fetch error:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 // Problem detail logic
 exports.problemDetail = async (req, res) => {
     try {
