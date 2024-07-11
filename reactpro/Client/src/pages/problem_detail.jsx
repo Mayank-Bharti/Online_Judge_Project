@@ -34,7 +34,7 @@ function ProblemDetail() {
     const response = await fetch('http://localhost:5000/api/run', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code }),
+      body: JSON.stringify({ code,language:"cpp" }),
     });
     const result = await response.json();
     setOutput(result.output);
