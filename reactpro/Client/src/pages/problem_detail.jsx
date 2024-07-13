@@ -8,6 +8,7 @@ function ProblemDetail() {
   const [problem, setProblem] = useState(null);
   const [language, setLanguage] = useState('cpp');
   const [code, setCode] = useState('');
+  const [inputs, setInputs] = useState(''); // Added state for inputs
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -49,7 +50,7 @@ function ProblemDetail() {
       const response = await fetch('http://localhost:5000/api/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, language }),
+        body: JSON.stringify({ code, language, input: inputs }), // Included inputs in the request body
       });
 
       const result = await response.json();
@@ -86,8 +87,8 @@ function ProblemDetail() {
         <select
           value={language}
           onChange={(e) => {
-            setLanguage(e.target.value)
-            }}
+            setLanguage(e.target.value);
+          }}
         >
           <option value="cpp">C++</option>
           <option value="py">Python</option>
@@ -99,6 +100,14 @@ function ProblemDetail() {
           onChange={(e) => setCode(e.target.value)}
           className="code-editor"
           placeholder="Write your code here..."
+        ></textarea>
+      </div>
+      <div className="input-editor-container">
+        <textarea
+          value={inputs}
+          onChange={(e) => setInputs(e.target.value)} // Added input field
+          className="input-editor"
+          placeholder="Enter your inputs here..."
         ></textarea>
       </div>
       <div className="button-container">

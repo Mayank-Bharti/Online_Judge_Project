@@ -1,25 +1,22 @@
-const { exec } = require("child_process"); //read about child process
-const fs = require("fs");
-const path = require("path");
-const { v4: uuid } = require('uuid');
+const { exec } = require("child_process");
 
-const executePy = (filepath) => {
+const executePy = (filepath, input = "") => {
     return new Promise((resolve, reject) => {
-        
-         const command= `python "${filepath}" `;
-        //  console.log("Executing command:", command); // Debugging line
-         exec(command, (error, stdout, stderr) => {
-             if (error) {
-                //  console.error("Error executing command:", error);
-                 reject({ error, stderr });
-             } else if (stderr) {
-                //  console.error("Standard error:", stderr);
-                 reject(stderr);
-             } else {
-                 resolve(stdout);
-             }
+        const command = `python "${filepath}"`;
+        const process = exec(command, (error, stdout, stderr) => {
+            if (error) {
+                reject({ error, stderr });
+            } else if (stderr) {
+                reject(stderr);
+            } else {
+                resolve(stdout);
             }
-        );
+        });
+
+        if (input) {
+            process.stdin.write(input);
+            process.stdin.end();
+        }
     });
 };
 

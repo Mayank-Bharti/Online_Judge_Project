@@ -188,7 +188,7 @@ exports.login = async (req, res) => {
 
 // Compile code logic
 exports.compileCode = async (req, res) => {
-    const { language = 'cpp', code } = req.body;
+    const { language = 'cpp', code,input } = req.body;
     // console.log(language);
     //    res.send({language,code});
     if (code === undefined) {
@@ -198,10 +198,10 @@ exports.compileCode = async (req, res) => {
         const filePath = await generateFile(language, code);
         let output;
         if(language=="cpp"){
-            output = await executeCpp(filePath);
+            output = await executeCpp(filePath,input);
         }
         else{
-            output = await executePy(filePath);
+            output = await executePy(filePath,input);
         }
         res.send({ filePath ,output});
     } catch (error) {
