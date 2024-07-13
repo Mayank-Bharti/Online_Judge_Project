@@ -1,6 +1,7 @@
 // src/Home.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './home.css'
 
 function Home() {
   const [problemGroups, setProblemGroups] = useState([]);
@@ -16,7 +17,7 @@ function Home() {
   }, []);
 
   return (
-    <div>
+    <div id='home'>
       <h1>DSA Problems</h1>
       {problemGroups.map(group => (
         <div key={group.id}>

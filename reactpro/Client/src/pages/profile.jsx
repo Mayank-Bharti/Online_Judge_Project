@@ -6,6 +6,7 @@ import CommunityStats from './CommunityStats';
 import Languages from './Languages';
 import Skills from './Skills';
 import RecentSubmissions from './RecentSubmissions';
+import './ProfilePage.css';
 
 const ProfilePage = () => {
     const [user, setUser] = useState({});

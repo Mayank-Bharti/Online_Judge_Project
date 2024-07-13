@@ -7,6 +7,7 @@ const Problem = require('../models/problem-model.js');
 const ProblemDetail = require('../models/problem_detail');
 const Contest = require('../models/contest_schema')
 const jwt = require('jsonwebtoken');
+const { executePy } = require('../utils/executePy.js');
 
 //profile page
 exports.profile = async (req, res) => {
@@ -188,13 +189,20 @@ exports.login = async (req, res) => {
 // Compile code logic
 exports.compileCode = async (req, res) => {
     const { language = 'cpp', code } = req.body;
+    // console.log(language);
     //    res.send({language,code});
     if (code === undefined) {
         return res.status(404).json({ success: false, error: "Empty code!" });
     }
     try {
         const filePath = await generateFile(language, code);
-        const output = await executeCpp(filePath);
+        let output;
+        if(language=="cpp"){
+            output = await executeCpp(filePath);
+        }
+        else{
+            output = await executePy(filePath);
+        }
         res.send({ filePath ,output});
     } catch (error) {
         res.status(500).json({ success:false,message:"Error" ,error });

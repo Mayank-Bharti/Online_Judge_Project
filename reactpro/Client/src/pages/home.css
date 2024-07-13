@@ -1,28 +1,6 @@
-/* General resets and styling */
-/* home.css */
 
-/* General resets and styling */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
-  }
-  
-  /* Home component styling */
-  .home-container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .message {
-    font-size: 24px;
-    color: #333;
+  #home{ 
+    /* transform: translateY(200px);  */
+    margin-top: 250px;
   }
   

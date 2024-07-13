@@ -4,13 +4,17 @@ import { useParams } from 'react-router-dom';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
-import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/clike/clike';
+import 'codemirror/mode/python/python';
+import './ProblemDetail.css';
 
 function ProblemDetail() {
   const { title } = useParams();
   const [problem, setProblem] = useState(null);
+  const [language, setLanguage] = useState('cpp');
   const [code, setCode] = useState('');
   const [output, setOutput] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     async function fetchProblemDetail() {
@@ -18,12 +22,16 @@ function ProblemDetail() {
         console.error('No title parameter found in URL');
         return;
       }
-      const response = await fetch(`http://localhost:5000/api/problemDetail/${title}`);
-      if (response.ok) {
-        const data = await response.json();
-        setProblem(data);
-      } else {
-        console.error(`Problem detail not found for title: ${title}`);
+      try {
+        const response = await fetch(`http://localhost:5000/api/problemDetail/${title}`);
+        if (response.ok) {
+          const data = await response.json();
+          setProblem(data);
+        } else {
+          console.error(`Problem detail not found for title: ${title}`);
+        }
+      } catch (error) {
+        console.error('Error fetching problem details:', error);
       }
     }
 
@@ -31,38 +39,80 @@ function ProblemDetail() {
   }, [title]);
 
   const handleRunCode = async () => {
-    const response = await fetch('http://localhost:5000/api/run', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code,language:"cpp" }),
-    });
-    const result = await response.json();
-    setOutput(result.output);
+    setError(''); // Clear previous error
+    setOutput(''); // Clear previous output
+
+    try {
+      const response = await fetch('http://localhost:5000/api/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, language }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setOutput(result.output);
+      } else {
+        setError(result.error || 'An unknown error occurred.');
+      }
+    } catch (error) {
+      setError('An error occurred while running the code.');
+    }
   };
 
   if (!problem) {
     return <div>Loading...</div>;
   }
 
+  const modeMap = {
+    cpp: 'text/x-c++src',
+    py: 'text/x-python',
+  };
+
   return (
-    <div>
+    <div className="problem-detail">
       <h1>{problem.title}</h1>
       <p>{problem.description}</p>
-      <p>{problem.exampleInput}</p>
-      <p>{problem.exampleOutput}</p>
-      <p>{problem.difficulty}</p>
+      <div className="example-section">
+        <p><strong>Example Input:</strong> {problem.exampleInput}</p>
+        <p><strong>Example Output:</strong> {problem.exampleOutput}</p>
+      </div>
+      <p><strong>Difficulty:</strong> {problem.difficulty}</p>
+      <div className="language-selector">
+        <label>Language: </label>
+        <select
+          value={language}
+          onChange={(e) => {
+            setLanguage(e.target.value);
+          }}
+        >
+          <option value="cpp">C++</option>
+          <option value="py">Python</option>
+        </select>
+      </div>
       <CodeMirror
         value={code}
         options={{
-          mode: 'javascript',
+          mode: modeMap[language],
           theme: 'material',
           lineNumbers: true,
+          lineWrapping: true,
         }}
         onBeforeChange={(editor, data, value) => {
           setCode(value);
         }}
+        className="code-editor"
       />
-      <button onClick={handleRunCode}>Run Code</button>
+      <div className="button-container">
+        <button className="run-code-button" onClick={handleRunCode}>Run Code</button>
+      </div>
+      {error && (
+        <div className="error-message">
+          <h2>Error:</h2>
+          <pre>{typeof error === 'object' ? JSON.stringify(error, null, 2) : error}</pre>
+        </div>
+      )}
       <div>
         <h2>Output:</h2>
         <pre>{output}</pre>

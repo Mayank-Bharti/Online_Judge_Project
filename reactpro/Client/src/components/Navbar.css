@@ -3,15 +3,26 @@ header {
   background-color: #333;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: fit-content;
+  width: 100%;
+   /* position: fixed;  */
+  top: 0;
+  z-index: 1000;
+  display: flex; /* Use flexbox to align items */
+  justify-content: space-between; /* Space between logo and nav */
+  align-items: center; /* Center items vertically */
+  height: 60px; /* Reduce height */
+  display: flex;
+  padding-top: 5px; 
+  transform: translateY(200px);
 }
 
 .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+  display: flex; /* Use flexbox to align items */
+  justify-content: space-between; /* Space between logo and nav */
+  align-items: center; /* Center items vertically */
+  padding-top: 5px; 
 }
 
 .logo-brand {
