@@ -1,11 +1,6 @@
 // src/ProblemDetail.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Controlled as CodeMirror } from 'react-codemirror2';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-import 'codemirror/mode/clike/clike';
-import 'codemirror/mode/python/python';
 import './ProblemDetail.css';
 
 function ProblemDetail() {
@@ -15,6 +10,7 @@ function ProblemDetail() {
   const [code, setCode] = useState('');
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProblemDetail() {
@@ -32,10 +28,17 @@ function ProblemDetail() {
         }
       } catch (error) {
         console.error('Error fetching problem details:', error);
+      } finally {
+        setLoading(false);
       }
     }
 
-    fetchProblemDetail();
+    if (title) {
+      fetchProblemDetail();
+    } else {
+      console.error('No title parameter found in URL');
+      setLoading(false);
+    }
   }, [title]);
 
   const handleRunCode = async () => {
@@ -61,14 +64,13 @@ function ProblemDetail() {
     }
   };
 
-  if (!problem) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
-  const modeMap = {
-    cpp: 'text/x-c++src',
-    py: 'text/x-python',
-  };
+  if (!problem) {
+    return <div>Problem not found</div>;
+  }
 
   return (
     <div className="problem-detail">
@@ -84,26 +86,21 @@ function ProblemDetail() {
         <select
           value={language}
           onChange={(e) => {
-            setLanguage(e.target.value);
-          }}
+            setLanguage(e.target.value)
+            }}
         >
           <option value="cpp">C++</option>
           <option value="py">Python</option>
         </select>
       </div>
-      <CodeMirror
-        value={code}
-        options={{
-          mode: modeMap[language],
-          theme: 'material',
-          lineNumbers: true,
-          lineWrapping: true,
-        }}
-        onBeforeChange={(editor, data, value) => {
-          setCode(value);
-        }}
-        className="code-editor"
-      />
+      <div className="code-editor-container">
+        <textarea
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          className="code-editor"
+          placeholder="Write your code here..."
+        ></textarea>
+      </div>
       <div className="button-container">
         <button className="run-code-button" onClick={handleRunCode}>Run Code</button>
       </div>
@@ -113,7 +110,7 @@ function ProblemDetail() {
           <pre>{typeof error === 'object' ? JSON.stringify(error, null, 2) : error}</pre>
         </div>
       )}
-      <div>
+      <div className="output-container">
         <h2>Output:</h2>
         <pre>{output}</pre>
       </div>

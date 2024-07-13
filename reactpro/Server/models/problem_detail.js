@@ -6,7 +6,7 @@ const problemDetailSchema = new mongoose.Schema({
   exampleInput: { type: String, required: false },
   exampleOutput: { type: String, required: false },
   difficulty: { type: String, required: false },
-  compiler: { type: String, required: true }
+  // compiler: { type: String, required: true }
 });
 
 const ProblemDetail = mongoose.model('ProblemDetail', problemDetailSchema);
