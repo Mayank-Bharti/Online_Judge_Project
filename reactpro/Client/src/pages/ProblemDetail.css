@@ -152,3 +152,60 @@ body {
   border-color: #007bff;
 }
 
+.test-cases-container {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.test-case {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.test-case-input {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.test-case-output {
+  color: #333;
+}
+
+.test-case-result {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.test-case-result.correct {
+  color: #28a745; /* Green for correct */
+}
+
+.test-case-result.incorrect {
+  color: #dc3545; /* Red for incorrect */
+}
+
+.submit-code-button {
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  width: 100%; /* Full-width button */
+}
+
+.submit-code-button:hover {
+  background-color: #218838;
+}
+
+.submit-code-button:focus {
+  outline: 4px auto -webkit-focus-ring-color;
+}
