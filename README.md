@@ -18,18 +18,16 @@ Test Case Verification: Automated checking of code against predefined test cases
 
 Tech Stack
 Frontend: React, CSS
-Backend: Node.js, Express ,TypeScript!
+Backend: Node.js, Express ,TypeScript!!
 Database: MongoDB
 Authentication: JWT (JSON Web Token)
 Code Execution: Integrated code compiler
 Password hash : BcryptJS
 
-
-[Screenshot 2024-07-14 234827](https://github.com/user-attachments/assets/410e383a-7b77-4a42-84e5-0f9839cc7a8e)
-![Screenshot 2024-07-14 234836](https://github.com/user-attachments/assets/0bf40914-2492-47ad-a800-f9f67480f1fc)
-![Screenshot 2024-07-14 234854](https://github.com/user-attachments/assets/64bff893-75ce-4529-a796-d75cc5ba202b)
-![Screenshot 2024-07-14 234906](https://github.com/user-attachments/assets/17b5b32f-7717-4102-bb35-f1eee51ec0ac)
-![Screenshot 2024-07-14 235414](https://github.com/user-attachments/assets/a051e9e5-785b-4c85-b348-4c333803c618)
-![Screenshot 2024-07-14 235421](https://github.com/user-attachments/assets/bf9d2b88-ae13-4689-b36c-e12d583286cb)
-
+[Screenshot 2024-07-14 234836](https://github.com/user-attachments/assets/93019a3a-7268-477d-8890-b068a575bdc3)
+![Screenshot 2024-07-14 234854](https://github.com/user-attachments/assets/70c2122e-8684-4534-971f-5b33d007bd10)
+![Screenshot 2024-07-14 234906](https://github.com/user-attachments/assets/c486066b-4646-451a-9ed9-d44a0a86cc5c)
+![Screenshot 2024-07-14 235414](https://github.com/user-attachments/assets/6dd511a0-b3a8-4d96-bbdd-81092560be3e)
+![Screenshot 2024-07-14 235421](https://github.com/user-attachments/assets/c0bf4340-4553-4ab2-a6de-b87ca4a3db8a)
+![Screenshot 2024-07-14 234827](https://github.com/user-attachments/assets/685c3d61-c4de-42f4-9ecb-aa9a4fa43d48)
 
