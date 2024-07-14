@@ -26,21 +26,9 @@ Password hash : BcryptJS
 
 
 
-![Screenshot 2024-07-14 234827](https://github.com/user-attachments/assets/ffeb7e4e-7ebc-4a2c-adf5-700ef8c0c75f)
-![Screenshot 2024-07-14 234836](https://github.com/user-attachments/assets/2ed945be-74a6-4f85-9446-d44b2b50ac36)
-![Screenshot 2024-07-14 234854](https://github.com/user-attachments/assets/3adc4cf1-c05f-4cef-9c35-831e60d252ff)
-![Screenshot 2024-07-14 234906](https://github.com/user-attachments/assets/356ff6d4-a4a9-4e53-8e08-1712405a4c9f)
-![Screenshot 2024-07-14 235414](https://github.com/user-attachments/assets/c714a815-3d6d-4b5a-a770-7fd4863ab00e)
-![Screenshot 2024-07-14 235421](https://github.com/user-attachments/assets/a066970b-a97d-4cc8-b8d6-dcda3152f556)
-![Screenshot 2024-07-15 001332](https://github.com/user-attachments/assets/c3e16b2d-d5bd-4a51-b660-629621346456)
-
-Test Case Verification: Automated checking of code against predefined test cases.
-
-Tech Stack
-Frontend: React, CSS
-Backend: Node.js, Express ,TypeScript!!
-Database: MongoDB
-Authentication: JWT (JSON Web Token)
-Code Execution: Integrated code compiler
-Password hash : BcryptJS
-
+![Screenshot 2024-07-14 234827](https://github.com/user-attachments/assets/7cebe038-b137-4dc7-afa4-55e31d3fb8b4)
+![Screenshot 2024-07-14 234854](https://github.com/user-attachments/assets/a0194f74-4470-49cd-bfd1-e79bb07b20ff)
+![Screenshot 2024-07-14 234906](https://github.com/user-attachments/assets/1499a855-02d0-4e49-9664-d3b442e6a120)
+![Screenshot 2024-07-14 235414](https://github.com/user-attachments/assets/593465cd-6a33-429e-9f51-3c4f7a3a82d5)
+![Screenshot 2024-07-14 235421](https://github.com/user-attachments/assets/8a725155-caed-4304-8d96-ab48a1021a95)
+![Screenshot 2024-07-15 001332](https://github.com/user-attachments/assets/0a45fa82-1ee2-4f8e-9edd-30482b3ba8b8)
