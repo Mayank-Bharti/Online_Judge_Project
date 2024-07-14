@@ -8,13 +8,13 @@ if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeCpp = (filepath, input = "") => {
+const executeCpp = (filepath, inputPath) => {
     const jobId = path.basename(filepath).split(".")[0];
     const filename = `${jobId}.exe`;
     const outPath = path.join(outputPath, filename);
 
     return new Promise((resolve, reject) => {
-        const command = `g++ "${filepath}" -o "${outPath}" && cd "${outputPath}" && .\\${filename}`;
+        const command = `g++ "${filepath}" -o "${outPath}" && cd "${outputPath}" && .\\"${filename}"<"${inputPath}"`;
         const process = exec(command, (error, stdout, stderr) => {
             if (error) {
                 reject({ error, stderr });
@@ -25,10 +25,10 @@ const executeCpp = (filepath, input = "") => {
             }
         });
 
-        if (input) {
-            process.stdin.write(input);
-            process.stdin.end();
-        }
+        // if (input) {
+        //     process.stdin.write(input);
+        //     process.stdin.end();
+        // }
     });
 };
 

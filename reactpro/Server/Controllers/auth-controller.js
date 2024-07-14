@@ -2,6 +2,7 @@
 
 const { generateFile } = require('../utils/generateFile');
 const { executeCpp } = require('../utils/executeCpp');
+const { generateInputFile } = require('../utils//generateInputFile');
 const User = require('../models/user-model.js');
 const Problem = require('../models/problem-model.js'); 
 const ProblemDetail = require('../models/problem_detail');
@@ -202,14 +203,15 @@ exports.compileCode = async (req, res) => {
     }
     try {
         const filePath = await generateFile(language, code);
+        const inputPath = await generateInputFile(input);
         let output;
         if(language=="cpp"){
-            output = await executeCpp(filePath,input);
+            output = await executeCpp(filePath,inputPath);
         }
         else{
-            output = await executePy(filePath,input);
+            output = await executePy(filePath,inputPath);
         }
-        res.send({ filePath ,output});
+        res.send({ filePath ,inputPath,output});
     } catch (error) {
         res.status(500).json({ success:false,message:"Error" ,error });
     }
@@ -218,7 +220,7 @@ exports.compileCode = async (req, res) => {
 //submit code
 
 exports.submit = async (req, res) => {
-    const { language = 'cpp', code, problemTitle } = req.body;
+    const { language = 'cpp', code, input, problemTitle } = req.body;
     const userId = req.user?.userId;
 
     if (!userId) {
@@ -257,17 +259,20 @@ exports.submit = async (req, res) => {
 
         // Execute the code against each test case
         for (const testCase of testCases) {
-            const { input, expectedOutput } = testCase;
+            const { input: testCaseInput, expectedOutput } = testCase;
+
+            // Generate the input file for the current test case
+            const inputPath = await generateInputFile(testCaseInput);
             let actualOutput;
 
             if (language === "cpp") {
-                actualOutput = await executeCpp(filePath, input);
+                actualOutput = await executeCpp(filePath, inputPath);
             } else {
-                actualOutput = await executePy(filePath, input);
+                actualOutput = await executePy(filePath, inputPath);
             }
 
             results.push({
-                input,
+                input: testCaseInput,  // Added input field
                 expectedOutput,
                 actualOutput,
                 isCorrect: actualOutput.trim() === expectedOutput.trim()

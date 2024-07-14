@@ -1,8 +1,8 @@
 const { exec } = require("child_process");
 
-const executePy = (filepath, input = "") => {
+const executePy = (filepath, inputPath) => {
     return new Promise((resolve, reject) => {
-        const command = `python "${filepath}"`;
+        const command = `python "${filepath}"< "${inputPath}"`;
         const process = exec(command, (error, stdout, stderr) => {
             if (error) {
                 reject({ error, stderr });
@@ -13,10 +13,10 @@ const executePy = (filepath, input = "") => {
             }
         });
 
-        if (input) {
-            process.stdin.write(input);
-            process.stdin.end();
-        }
+        // if (input) {
+        //     process.stdin.write(input);
+        //     process.stdin.end();
+        // }
     });
 };
 
