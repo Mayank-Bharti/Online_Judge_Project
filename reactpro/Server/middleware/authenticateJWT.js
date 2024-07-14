@@ -8,14 +8,21 @@ const authenticateJWT = (req, res, next) => {
 
         jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
             if (err) {
-                return res.sendStatus(403);
+                console.error('JWT verification error:', err);
+                return res.sendStatus(403);  // Forbidden
             }
 
-            req.user = user;
+            if (!user || !user.userId) {
+                console.error('JWT token does not contain userId');
+                return res.sendStatus(403);  // Forbidden
+            }
+
+            req.user = user;  // Attach user info to req
             next();
         });
     } else {
-        res.sendStatus(401);
+        console.error('No Authorization header provided');
+        res.sendStatus(401);  // Unauthorized
     }
 };
 

@@ -8,6 +8,9 @@ const ProblemDetail = require('../models/problem_detail');
 const Contest = require('../models/contest_schema')
 const jwt = require('jsonwebtoken');
 const { executePy } = require('../utils/executePy.js');
+// const TestCase = require('../models/TestCase.js');
+const Submission = require('../models/Submission.js');
+
 
 //profile page
 exports.profile = async (req, res) => {
@@ -62,7 +65,10 @@ exports.profile = async (req, res) => {
 exports.problemDetail = async (req, res) => {
     try {
         const problemTitle = req.params.title;
-        const problem = await ProblemDetail.findOne({ title: problemTitle});
+        const problem = await ProblemDetail.findOne({ title: problemTitle })
+            .populate('testCases')  // Assuming 'testCases' is the correct path to populate
+            .exec();
+
 
         if (problem) {
             res.json(problem);
@@ -206,5 +212,84 @@ exports.compileCode = async (req, res) => {
         res.send({ filePath ,output});
     } catch (error) {
         res.status(500).json({ success:false,message:"Error" ,error });
+    }
+};
+
+//submit code
+
+exports.submit = async (req, res) => {
+    const { language = 'cpp', code, problemTitle } = req.body;
+    const userId = req.user?.userId;
+
+    if (!userId) {
+        return res.status(401).json({ success: false, error: "Unauthorized" });
+    }
+
+    if (!code) {
+        return res.status(400).json({ success: false, error: "Empty code!" });
+    }
+
+    try {
+        console.log('Problem Title:', problemTitle);
+        console.log('Code Submitted:', code);
+
+        // Fetch the problem details and test cases using problemTitle
+        const problemDetail = await ProblemDetail.findOne({ title: problemTitle })
+            .populate('testCases')  // Correctly populate the testCases field
+            .exec();
+
+        console.log('Fetched Problem Detail:', problemDetail);
+        if (!problemDetail) {
+            return res.status(404).json({ success: false, error: "Problem not found!" });
+        }
+
+        const testCases = problemDetail.testCases;
+
+        if (!testCases || testCases.length === 0) {
+            return res.status(404).json({ success: false, error: "No test cases available!" });
+        }
+
+        console.log('Test Cases:', testCases);
+
+        // Generate the file from the submitted code
+        const filePath = await generateFile(language, code);
+        const results = [];
+
+        // Execute the code against each test case
+        for (const testCase of testCases) {
+            const { input, expectedOutput } = testCase;
+            let actualOutput;
+
+            if (language === "cpp") {
+                actualOutput = await executeCpp(filePath, input);
+            } else {
+                actualOutput = await executePy(filePath, input);
+            }
+
+            results.push({
+                input,
+                expectedOutput,
+                actualOutput,
+                isCorrect: actualOutput.trim() === expectedOutput.trim()
+            });
+        }
+
+        const verdict = results.every(result => result.isCorrect) ? 'Accepted' : 'Wrong Answer';
+
+        // Save the submission
+        const submission = new Submission({
+            userId,
+            problemId: problemDetail._id,
+            code,
+            verdict,
+            testCaseResults: results
+        });
+
+        await submission.save();
+
+        res.json({ verdict, results });
+    } catch (error) {
+        console.error('Error processing submission:', error);
+        res.status(500).json({ success: false, message: "Error processing submission", error });
     }
 };

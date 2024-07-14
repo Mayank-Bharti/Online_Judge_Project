@@ -8,10 +8,12 @@ function ProblemDetail() {
   const [problem, setProblem] = useState(null);
   const [language, setLanguage] = useState('cpp');
   const [code, setCode] = useState('');
-  const [inputs, setInputs] = useState(''); // Added state for inputs
+  const [inputs, setInputs] = useState('');
   const [output, setOutput] = useState('');
+  const [testResults, setTestResults] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
 
   useEffect(() => {
     async function fetchProblemDetail() {
@@ -20,7 +22,11 @@ function ProblemDetail() {
         return;
       }
       try {
-        const response = await fetch(`http://localhost:5000/api/problemDetail/${title}`);
+        const response = await fetch(`http://localhost:5000/api/problemDetail/${title}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         if (response.ok) {
           const data = await response.json();
           setProblem(data);
@@ -40,21 +46,22 @@ function ProblemDetail() {
       console.error('No title parameter found in URL');
       setLoading(false);
     }
-  }, [title]);
+  }, [title, token]);
 
   const handleRunCode = async () => {
-    setError(''); // Clear previous error
-    setOutput(''); // Clear previous output
-
+    setError('');
+    setOutput('');
     try {
       const response = await fetch('http://localhost:5000/api/run', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, language, input: inputs }), // Included inputs in the request body
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ code, language, input: inputs }),
       });
 
       const result = await response.json();
-
       if (response.ok) {
         setOutput(result.output);
       } else {
@@ -62,6 +69,30 @@ function ProblemDetail() {
       }
     } catch (error) {
       setError('An error occurred while running the code.');
+    }
+  };
+
+  const handleSubmitCode = async () => {
+    setError('');
+    setTestResults([]);
+    try {
+      const response = await fetch('http://localhost:5000/api/submit-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ code, language, problemTitle: title }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        setTestResults(result.results);
+      } else {
+        setError(result.error || 'An unknown error occurred.');
+      }
+    } catch (error) {
+      setError('An error occurred while submitting the code.');
     }
   };
 
@@ -86,9 +117,7 @@ function ProblemDetail() {
         <label>Language: </label>
         <select
           value={language}
-          onChange={(e) => {
-            setLanguage(e.target.value);
-          }}
+          onChange={(e) => setLanguage(e.target.value)}
         >
           <option value="cpp">C++</option>
           <option value="py">Python</option>
@@ -105,13 +134,14 @@ function ProblemDetail() {
       <div className="input-editor-container">
         <textarea
           value={inputs}
-          onChange={(e) => setInputs(e.target.value)} // Added input field
+          onChange={(e) => setInputs(e.target.value)}
           className="input-editor"
           placeholder="Enter your inputs here..."
         ></textarea>
       </div>
       <div className="button-container">
         <button className="run-code-button" onClick={handleRunCode}>Run Code</button>
+        <button className="submit-code-button" onClick={handleSubmitCode}>Submit Code</button>
       </div>
       {error && (
         <div className="error-message">
@@ -122,6 +152,21 @@ function ProblemDetail() {
       <div className="output-container">
         <h2>Output:</h2>
         <pre>{output}</pre>
+      </div>
+      <div className="test-results-container">
+        <h2>Test Results:</h2>
+        {testResults.length > 0 ? (
+          testResults.map((result, index) => (
+            <div key={index} className="test-result">
+              <p><strong>Input:</strong> {result.input}</p>
+              <p><strong>Expected Output:</strong> {result.expectedOutput}</p>
+              <p><strong>Actual Output:</strong> {result.actualOutput}</p>
+              <p><strong>Result:</strong> {result.isCorrect ? 'Passed' : 'Failed'}</p>
+            </div>
+          ))
+        ) : (
+          <p>No test results available.</p>
+        )}
       </div>
     </div>
   );

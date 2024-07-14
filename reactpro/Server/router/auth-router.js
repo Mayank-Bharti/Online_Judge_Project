@@ -12,7 +12,8 @@ router.route("/").get(authControl.home);
 router.route("/problemDetail/:title").get(authControl.problemDetail);
 router.route("/register").post(validate(signupSchema), authControl.register);
 router.route("/login").post(authControl.login);
-router.route("/run").post(authControl.compileCode);
+router.route("/run").post(authenticateJWT,authControl.compileCode);
 router.route('/profile').get(authenticateJWT, authControl.profile);
+router.route("/submit-code").post(authenticateJWT,authControl.submit);
 
 module.exports = router;
