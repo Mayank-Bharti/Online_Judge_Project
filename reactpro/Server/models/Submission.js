@@ -22,7 +22,7 @@ const submissionSchema = new mongoose.Schema({
     },
     testCaseResults: [{
         input: {
-            type: String,
+            type: [Array,String],
             required: true  // Set this to `false` if you want to make `input` optional
         },
         expectedOutput: {

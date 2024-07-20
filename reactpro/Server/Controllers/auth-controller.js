@@ -232,15 +232,15 @@ exports.submit = async (req, res) => {
     }
 
     try {
-        console.log('Problem Title:', problemTitle);
-        console.log('Code Submitted:', code);
+        // console.log('Problem Title:', problemTitle);
+        // console.log('Code Submitted:', code);
 
         // Fetch the problem details and test cases using problemTitle
         const problemDetail = await ProblemDetail.findOne({ title: problemTitle })
             .populate('testCases')  // Correctly populate the testCases field
             .exec();
 
-        console.log('Fetched Problem Detail:', problemDetail);
+        //console.log('Fetched Problem Detail:', problemDetail);
         if (!problemDetail) {
             return res.status(404).json({ success: false, error: "Problem not found!" });
         }
@@ -251,7 +251,7 @@ exports.submit = async (req, res) => {
             return res.status(404).json({ success: false, error: "No test cases available!" });
         }
 
-        console.log('Test Cases:', testCases);
+        //console.log('Test Cases:', testCases);
 
         // Generate the file from the submitted code
         const filePath = await generateFile(language, code);
