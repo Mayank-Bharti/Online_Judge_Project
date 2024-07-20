@@ -69,7 +69,11 @@ const userSchema = new mongoose.Schema({
         default: Date.now,
     },
     problemsSolved: [problemSchema],
-    contestsParticipated: [contestSchema]
+    contestsParticipated: [contestSchema],
+    recentSubmissions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Submission'
+    }]
 
 });
 

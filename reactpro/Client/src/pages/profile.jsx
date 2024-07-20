@@ -40,11 +40,14 @@ const ProfilePage = () => {
         <div className="profile-page">
             <ProfileHeader user={user} />
             <div className="main-content">
-                <Statistics stats={{ problemsSolved: user.problemsSolved.length, contestsParticipated: user.contestsParticipated.length }} />
+                <Statistics stats={{ 
+                    problemsSolved: user.problemsSolved ? user.problemsSolved.length : 0, 
+                    contestsParticipated: user.contestsParticipated ? user.contestsParticipated.length : 0 
+                }} />
                 <CommunityStats stats={user.communityStats} />
                 <Languages languages={user.languages} />
                 <Skills skills={user.skills} />
-                <RecentSubmissions submissions={user.recentSubmissions} />
+                <RecentSubmissions submissions={user.recentSubmissions || []} />
             </div>
         </div>
     );

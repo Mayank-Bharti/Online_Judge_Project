@@ -22,22 +22,26 @@ const submissionSchema = new mongoose.Schema({
     },
     testCaseResults: [{
         input: {
-            type: [Array,String],
-            required: true  // Set this to `false` if you want to make `input` optional
+            type: [Array, String],
+            required: true
         },
         expectedOutput: {
-            type: String,
+            type: [Array, String],
             required: true
         },
         actualOutput: {
-            type: String,
+            type: [Array, String],
             required: true
         },
         isCorrect: {
             type: Boolean,
             required: true
         }
-    }]
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const Submission = mongoose.model('Submission', submissionSchema);

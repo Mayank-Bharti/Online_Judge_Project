@@ -17,6 +17,8 @@ const Submission = require('../models/Submission.js');
 exports.profile = async (req, res) => {
     try {
         const user = await User.findById(req.user.userId)
+            .select('-password')
+            .select('-dob')
             .populate('problemsSolved.problemId', 'title description difficulty')
             .populate('contestsParticipated.contestId', 'title description date')
             .exec();
@@ -24,12 +26,17 @@ exports.profile = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
+
+        // Log populated user data for debugging
+        console.log("User with populated data:", user);
+
         const totalUsers = await User.countDocuments();
         const totalContests = await Contest.countDocuments();
-        const recentSubmissions = user.problemsSolved.slice(-5).map(ps => ({
-            problem: ps.problemId,
-            solvedAt: ps.solvedAt
-        }));
+        const recentSubmissions = await Submission.find({ userId: user._id })
+            .populate('problemId', 'title') // Populate problem title
+            .sort({ createdAt: -1 }) // Sort by most recent
+            .limit(5); // Limit to 5 recent submissions
+
         const userProfile = {
             username: user.username,
             email: user.email,
@@ -52,16 +59,23 @@ exports.profile = async (req, res) => {
                 totalUsers,
                 totalContests
             },
-            languages: user.languages || [],  
-            skills: user.skills || [],       
-            recentSubmissions: recentSubmissions
+            languages: user.languages || [],
+            skills: user.skills || [],
+            recentSubmissions: recentSubmissions.map(sub => ({
+                problem: sub.problemId.title,
+                solvedAt: sub.createdAt // Use createdAt as solvedAt
+            }))
         };
+
         res.status(200).json({ user: userProfile });
     } catch (error) {
         console.error("Profile fetch error:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
+
 // Problem detail logic
 exports.problemDetail = async (req, res) => {
     try {
@@ -232,15 +246,10 @@ exports.submit = async (req, res) => {
     }
 
     try {
-        // console.log('Problem Title:', problemTitle);
-        // console.log('Code Submitted:', code);
-
-        // Fetch the problem details and test cases using problemTitle
         const problemDetail = await ProblemDetail.findOne({ title: problemTitle })
-            .populate('testCases')  // Correctly populate the testCases field
+            .populate('testCases')
             .exec();
 
-        //console.log('Fetched Problem Detail:', problemDetail);
         if (!problemDetail) {
             return res.status(404).json({ success: false, error: "Problem not found!" });
         }
@@ -251,17 +260,12 @@ exports.submit = async (req, res) => {
             return res.status(404).json({ success: false, error: "No test cases available!" });
         }
 
-        //console.log('Test Cases:', testCases);
-
-        // Generate the file from the submitted code
         const filePath = await generateFile(language, code);
         const results = [];
 
-        // Execute the code against each test case
         for (const testCase of testCases) {
             const { input: testCaseInput, expectedOutput } = testCase;
 
-            // Generate the input file for the current test case
             const inputPath = await generateInputFile(testCaseInput);
             let actualOutput;
 
@@ -272,7 +276,7 @@ exports.submit = async (req, res) => {
             }
 
             results.push({
-                input: testCaseInput,  // Added input field
+                input: testCaseInput,
                 expectedOutput,
                 actualOutput,
                 isCorrect: actualOutput.trim() === expectedOutput.trim()
@@ -281,7 +285,6 @@ exports.submit = async (req, res) => {
 
         const verdict = results.every(result => result.isCorrect) ? 'Accepted' : 'Wrong Answer';
 
-        // Save the submission
         const submission = new Submission({
             userId,
             problemId: problemDetail._id,
@@ -291,6 +294,13 @@ exports.submit = async (req, res) => {
         });
 
         await submission.save();
+
+        // Update user's recent submissions
+        if (verdict === 'Accepted') {
+            await User.findByIdAndUpdate(userId, {
+                $push: { recentSubmissions: submission._id }
+            });
+        }
 
         res.json({ verdict, results });
     } catch (error) {
