@@ -35,7 +35,7 @@ exports.profile = async (req, res) => {
         const recentSubmissions = await Submission.find({ userId: user._id })
             .populate('problemId', 'title') // Populate problem title
             .sort({ createdAt: -1 }) // Sort by most recent
-            .limit(5); // Limit to 5 recent submissions
+            .limit(50); // Limit to 5 recent submissions
 
         const userProfile = {
             username: user.username,

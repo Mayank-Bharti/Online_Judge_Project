@@ -47,11 +47,19 @@ export const Register = () => {
         },
       });
       console.log(response.data);
+      const { token, username, userId } = response.data;
+      // Store token and user data in localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
+      localStorage.setItem('userId', userId);
+
+      // Redirect to profile page
+      window.location.href = '/profile';
     } catch (error) {
       console.error('Registration error:', error.response ? error.response.data : error.message);
     }
   };
-
+  
   return (
     <div className="registration-form">
       <div className="logo-container">

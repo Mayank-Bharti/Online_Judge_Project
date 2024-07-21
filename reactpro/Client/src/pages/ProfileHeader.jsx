@@ -8,6 +8,7 @@ const ProfileHeader = ({ user }) => {
             <div className="profile-info">
                 <h2>{user.username}</h2>
                 <p>Rank: {user.rank}</p>
+                <p>Organisation:{user.organisation}</p>
                 <button>Edit Profile</button>
             </div>
         </div>

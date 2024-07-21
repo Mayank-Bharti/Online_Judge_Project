@@ -16,15 +16,21 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    setIsAuthenticated(false);
+                    return;
+                }
                 const response = await axios.get('http://localhost:5000/api/profile', {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        'Authorization': `Bearer ${token}`
                     }
                 });
                 setUser(response.data.user);
             } catch (err) {
-                setError('Error fetching profile data');
+                setError(' please login your account...');
                 console.error('Profile fetch error:', err);
+                setIsAuthenticated(false);
             } finally {
                 setLoading(false);
             }
@@ -32,6 +38,16 @@ const ProfilePage = () => {
 
         fetchUserProfile();
     }, []);
+    const handleSignOut = () => {
+        // Clear localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userId');
+        
+        // Redirect to login page
+        window.location.href = '/login';
+    };
+    
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
@@ -49,6 +65,7 @@ const ProfilePage = () => {
                 <Skills skills={user.skills} />
                 <RecentSubmissions submissions={user.recentSubmissions || []} />
             </div>
+            <button className="signout-button" onClick={handleSignOut}>Sign Out</button>
         </div>
     );
 };
