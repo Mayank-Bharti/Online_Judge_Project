@@ -63,7 +63,7 @@ export const Register = () => {
   return (
     <div className="registration-form">
       <div className="logo-container">
-        <img src="../images/CodeMania.jpg" alt="CodeMania" className="logo" />
+        <img src="\assets\CodeMania-Bgxof_ui.jpg" alt="CodeMania" className="logo" />
         <h1 className="site-name">CodeMania</h1>
       </div>
       <form onSubmit={handleSubmit} method="POST">

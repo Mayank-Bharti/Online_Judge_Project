@@ -14,7 +14,7 @@ const Navbar = () => {
       <header>
         <div className="container">
           <div className="logo-brand">
-            <NavLink to="/"><img src="../images/CodeMania.jpg" alt="CodeMania" className="logo" /></NavLink>
+            <NavLink to="/"><img src="\assets\CodeMania-Bgxof_ui.jpg" alt="CodeMania" className="logo" /></NavLink>
           </div>
           <div className="menu-toggle" onClick={toggleMenu}>
             &#9776;
