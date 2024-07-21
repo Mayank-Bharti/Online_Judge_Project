@@ -154,20 +154,22 @@ function ProblemDetail() {
         <pre>{output}</pre>
       </div>
       <div className="test-results-container">
-        <h2>Test Results:</h2>
+      <h2>Test Results:</h2>
+      <div className="test-cases">
         {testResults.length > 0 ? (
           testResults.map((result, index) => (
-            <div key={index} className="test-result">
-              <p><strong>Input:</strong> {result.input}</p>
-              <p><strong>Expected Output:</strong> {result.expectedOutput}</p>
-              <p><strong>Actual Output:</strong> {result.actualOutput}</p>
-              <p><strong>Result:</strong> {result.isCorrect ? 'Passed' : 'Failed'}</p>
+            <div
+              key={index}
+              className={`test-case ${result.isCorrect ? 'passed' : 'failed'}`}
+            >
+              Test Case {index + 1}
             </div>
           ))
         ) : (
           <p>No test results available.</p>
         )}
       </div>
+    </div>
     </div>
   );
 }

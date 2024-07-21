@@ -54,14 +54,14 @@ p {
 .code-editor {
   width: 100%;
   height: 400px;
-  background-color: #f7f7f7;
-  color: #333;
+  background-color:black;
+  color: white;
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ccc;
+  border: 6px solid pink;
   resize: none;
 }
 
@@ -152,42 +152,42 @@ body {
   border-color: #007bff;
 }
 
-.test-cases-container {
-  margin-top: 20px;
-  background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.test-results-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.test-case {
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
-}
-
-.test-case-input {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.test-case-output {
+.test-results-container h2 {
   color: #333;
 }
 
-.test-case-result {
+.test-cases {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.test-case {
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  color: white;
   font-weight: bold;
-  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
 }
 
-.test-case-result.correct {
-  color: #28a745; /* Green for correct */
+.passed {
+  background-color: #4CAF50; /* Green */
 }
 
-.test-case-result.incorrect {
-  color: #dc3545; /* Red for incorrect */
+.failed {
+  background-color: #F44336; /* Red */
+}
+
+.test-case:hover {
+  opacity: 0.8;
 }
 
 .submit-code-button {
