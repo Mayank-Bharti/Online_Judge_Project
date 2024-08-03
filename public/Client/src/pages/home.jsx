@@ -8,7 +8,7 @@ function Home() {
 
   useEffect(() => {
     async function fetchProblems() {
-      const response = await fetch('https://online-judge-project-backend.onrender.com/api');
+      const response = await fetch('https://online-judge-project-backend.onrender.com/api/');
       const data = await response.json();
       setProblemGroups(data);
     }
@@ -25,7 +25,7 @@ function Home() {
           <ul>
             {group.problems.map((problem) => (
               <li key={problem.title}>
-                <Link to={`/api/problemDetail/${problem.title}`}>{problem.title}</Link>
+                <Link to={`https://online-judge-project-backend.onrender.com/api/problemDetail/${problem.title}`}>{problem.title}</Link>
               </li>
             ))}
           </ul>
