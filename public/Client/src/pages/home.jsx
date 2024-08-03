@@ -25,7 +25,7 @@ function Home() {
           <ul>
             {group.problems.map((problem) => (
               <li key={problem.title}>
-                <Link to={`https://online-judge-project-backend.onrender.com/api/problemDetail/${problem.title}`}>{problem.title}</Link>
+                <Link to={`/problemDetail/${problem.title}`}>{problem.title}</Link>
               </li>
             ))}
           </ul>
