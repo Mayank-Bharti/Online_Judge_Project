@@ -22,7 +22,7 @@ function ProblemDetail() {
         return;
       }
       try {
-        const response = await fetch(`http://localhost:5000/api/problemDetail/${title}`, {
+        const response = await fetch(`https://online-judge-project-backend.onrender.com/api/problemDetail/${title}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

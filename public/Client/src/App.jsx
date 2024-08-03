@@ -12,7 +12,7 @@ const App = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api")
+    fetch("https://online-judge-project-backend.onrender.com")
       .then((res) => res.json())
       .then((data) => setData(data.message))
       .catch((error) => console.log("Error fetching message:", error));

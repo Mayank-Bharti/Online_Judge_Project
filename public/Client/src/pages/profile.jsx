@@ -21,7 +21,7 @@ const ProfilePage = () => {
                     setIsAuthenticated(false);
                     return;
                 }
-                const response = await axios.get('http://localhost:5000/api/profile', {
+                const response = await axios.get('https://online-judge-project-backend.onrender.com/api/profile', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

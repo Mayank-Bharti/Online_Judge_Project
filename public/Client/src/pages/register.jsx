@@ -41,7 +41,7 @@ export const Register = () => {
     // formData.append('profilepic', user.profilepic);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData, {
+      const response = await axios.post('https://online-judge-project-backend.onrender.com/api/register', formData, {
         headers: {
           'Content-Type': 'application/json',
         },

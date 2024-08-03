@@ -8,7 +8,7 @@ function Home() {
 
   useEffect(() => {
     async function fetchProblems() {
-      const response = await fetch('http://localhost:5000/api');
+      const response = await fetch('https://online-judge-project-backend.onrender.com');
       const data = await response.json();
       setProblemGroups(data);
     }
