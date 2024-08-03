@@ -25,7 +25,7 @@ function Home() {
           <ul>
             {group.problems.map((problem) => (
               <li key={problem.title}>
-                <Link to={`/problemDetail/${problem.title}`}>{problem.title}</Link>
+                <Link to={`/api/problemDetail/${problem.title}`}>{problem.title}</Link>
               </li>
             ))}
           </ul>
