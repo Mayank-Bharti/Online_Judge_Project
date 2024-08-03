@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 // CORS Options
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: " https://codemania-b1360.web.app",
     methods: "GET,POST,DELETE,PUT,PATCH,HEAD",
     allowedHeaders: 'Content-Type,Authorization',
     credentials: true,
