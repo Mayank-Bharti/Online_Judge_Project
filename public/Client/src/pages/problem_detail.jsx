@@ -52,7 +52,7 @@ function ProblemDetail() {
     setError('');
     setOutput('');
     try {
-      const response = await fetch('http://localhost:5000/api/run', {
+      const response = await fetch('https://online-judge-project-backend.onrender.com/api/run', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
