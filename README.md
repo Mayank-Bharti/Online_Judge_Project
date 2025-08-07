@@ -6,13 +6,12 @@ CodeMania is an **online judge platform** that helps users enhance their program
 
 ## 📚 Table of Contents
 
-- [📌 Introduction](#introduction)
-- [✨ Features](#features)
-- [🛠️ Tech Stack](#tech-stack)
-- [🐳 Dockerization](#dockerization)
-- [⚙️ Setup Instructions](#setup-instructions)
-- [🚀 Usage](#usage)
-- [📸 Screenshots](#screenshots)
+- [📌 Introduction](#-introduction)
+- [✨ Features](#-features)
+- [🛠️ Tech Stack](#-tech-stack)
+- [⚙️ Setup Instructions](#-setup-instructions)
+- [🚀 Usage](#-usage)
+- [📸 Screenshots](#-screenshots)
 
 ---
 
