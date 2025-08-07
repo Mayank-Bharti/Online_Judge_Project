@@ -1,49 +1,53 @@
-# 🚀 CodeMania - Online Judge Project
+# CodeMania - Online Judge Project
 
 CodeMania is an **online judge platform** that helps users enhance their programming skills by solving **Data Structures and Algorithms (DSA)** problems. With features like user authentication, code execution, test case validation, and profile tracking, it aims to simulate real-world coding platforms for self-paced learning and contest practice.
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 
-- [📌 Introduction](#-introduction)
-- [✨ Features](#-features)
-- [🛠️ Tech Stack](#-tech-stack)
-- [⚙️ Setup Instructions](#-setup-instructions)
-- [🚀 Usage](#-usage)
-- [📸 Screenshots](#-screenshots)
-
----
-
-## 📌 Introduction
-
-CodeMania is an online judge platform designed to allow users to practice and improve their programming skills through solving data structures and algorithms (DSA) problems. Users can register, login, view problems, and submit code.
+- [Introduction](#introduction)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Setup Instructions](#setup-instructions)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
 
 ---
 
-## ✨ Features
+## Introduction
+
+CodeMania is an online judge platform designed to allow users to practice and improve their programming skills through solving data structures and algorithms (DSA) problems. Users can register, login, view problems, and submit code. The platform simulates competitive programming environments and tracks each user's progress.
+
+---
+
+## Features
 
 - **User Authentication**: Register and login functionalities with JWT authentication.  
 - **Profile Management**: View and edit user profiles, track problem-solving progress, and contest participation.  
 - **Problem List**: Browse and select DSA problems to solve.  
 - **Code Submission**: Online code editor for writing, running, and submitting code.  
-- **Test Case Verification**: Automated checking of code against predefined test cases.
+- **Test Case Verification**: Automated checking of code against predefined test cases.  
+- **Contest Tracking**: Users can participate in contests and see detailed submissions.  
+- **Leaderboard**: Global and organization-wise rankings.  
+- **Comment Section**: Comment on purchased or solved problems.  
+- **Charity Feature**: Donate items like clothes, bedsheets, or money.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: React, CSS  
 - **Backend**: Node.js, Express, TypeScript  
 - **Database**: MongoDB  
 - **Authentication**: JWT (JSON Web Token)  
-- **Code Execution**: Integrated code compiler  
 - **Password Hashing**: BcryptJS  
-- **Dockerization**: Use of Docker
+- **Code Execution**: Integrated code compiler  
+- **Dockerization**: Docker and Docker Compose (for deployment)
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ```bash
 # 1. Clone the repository
@@ -59,11 +63,13 @@ cd ../client
 npm install
 
 # 4. Start the backend
+cd ../server
 npm run dev
 
 # 5. Start the frontend
 cd ../client
 npm start
+
 
 ```
 
