@@ -67,7 +67,7 @@ npm start
 
 ```
 
-##screenshots
+## 📸 Screenshots
 
 ![Screenshot 2024-07-14 234827](https://github.com/user-attachments/assets/7cebe038-b137-4dc7-afa4-55e31d3fb8b4)
 ![Screenshot 2024-07-14 234854](https://github.com/user-attachments/assets/a0194f74-4470-49cd-bfd1-e79bb07b20ff)
