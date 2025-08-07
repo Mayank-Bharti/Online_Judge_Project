@@ -95,10 +95,10 @@ npm run dev
 
 ## Videos
 
-```text
+```markdown
 🎥 Click the link below to see a working demo of Online Judge:
 
-👉 Demo Video: https://www.loom.com/share/3b1a3d2a132c4b6ca9097298eb52343f?sid=0343beea-54b2-4009-a6ef-14854b87db34
+👉 [Demo Video](https://www.loom.com/share/3b1a3d2a132c4b6ca9097298eb52343f?sid=0343beea-54b2-4009-a6ef-14854b87db34)
 ```
 
 ---
