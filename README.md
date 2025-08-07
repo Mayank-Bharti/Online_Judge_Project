@@ -11,6 +11,7 @@ CodeMania is an **online judge platform** that helps users enhance their program
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Usage](#usage)
+- [Videos](#videos)
 - [Screenshots](#screenshots)
 
 ---
@@ -51,27 +52,56 @@ CodeMania is an online judge platform designed to allow users to practice and im
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/codemania.git
+git clone https://github.com/Mayank-Bharti/Online_Judge_Project.git
 cd codemania
 
 # 2. Install server dependencies
-cd server
+cd ../Server
 npm install
 
 # 3. Install client dependencies
-cd ../client
+cd ../Client
 npm install
 
 # 4. Start the backend
-cd ../server
+cd ../Server
 npm run dev
 
 # 5. Start the frontend
-cd ../client
-npm start
-
-
+cd ../Client
+npm run dev
 ```
+
+---
+
+## Usage
+
+```text
+1. Register a new account using the signup form.
+2. Login with your email and password to access the platform.
+3. Navigate to the 'Problems' section to browse coding challenges.
+4. Click on any problem to view its description and constraints.
+5. Use the integrated code editor to write and run your solution.
+6. Submit your solution to get it evaluated against the test cases.
+7. View your submission results, including passed/failed test cases.
+8. Track all your activity in your profile: solved problems, contests, orders, comments.
+9. Join contests and monitor rankings via the leaderboard.
+10. After purchasing or solving a problem, use the comment section to share feedback.
+11. Use the Charity feature to donate items — select type and confirm donation.
+12. All information persists in your profile for review and progress tracking.
+```
+
+---
+
+## Videos
+
+```text
+🎥 Click the link below to see a working demo of Online Judge:
+
+👉 Demo Video: https://www.loom.com/share/3b1a3d2a132c4b6ca9097298eb52343f?sid=0343beea-54b2-4009-a6ef-14854b87db34
+```
+
+---
 
 ## Screenshots
 
@@ -81,6 +111,5 @@ npm start
 ![Screenshot 2024-07-14 235414](https://github.com/user-attachments/assets/593465cd-6a33-429e-9f51-3c4f7a3a82d5)
 ![Screenshot 2024-07-14 235421](https://github.com/user-attachments/assets/8a725155-caed-4304-8d96-ab48a1021a95)
 ![Screenshot 2024-07-15 001332](https://github.com/user-attachments/assets/0a45fa82-1ee2-4f8e-9edd-30482b3ba8b8)
-
 ![Screenshot 2024-07-15 002625](https://github.com/user-attachments/assets/71fb562e-8623-4449-a564-e196bb6bbc24)
 ![Screenshot 2024-07-15 002605](https://github.com/user-attachments/assets/8abacfa2-e6ea-4b8f-852f-220a793e4d28)
